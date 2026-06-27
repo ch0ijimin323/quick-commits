@@ -1,0 +1,34 @@
+name: Daily Commits
+
+on:
+  schedule:
+    # 매일 03:00 UTC = 12:00 KST(정오)에 실행
+    - cron: '0 3 * * *'
+  workflow_dispatch:   # 수동 실행도 허용
+
+permissions:
+  contents: write
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure git
+        run: |
+          git config user.name "ch0ijimin323"
+          git config user.email "266672550+ch0ijimin323@users.noreply.github.com"
+
+      - name: Create 10 commits
+        run: |
+          mkdir -p .daily
+          LOG=".daily/activity.txt"
+          for i in $(seq 1 10); do
+            echo "$(date -u +'%Y-%m-%dT%H:%M:%SZ') commit #$i" >> "$LOG"
+            git add "$LOG"
+            git commit -m "chore: daily activity $(date -u +'%Y-%m-%d') #$i"
+          done
+
+      - name: Push
+        run: git push
