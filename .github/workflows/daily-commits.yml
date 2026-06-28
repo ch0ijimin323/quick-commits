@@ -2,8 +2,8 @@ name: Daily Commits
 
 on:
   schedule:
-    # 매일 03:00 UTC = 12:00 KST(정오)에 실행
-    - cron: '0 3 * * *'
+    # 매일 23:00 UTC = 08:00 KST(아침 8시)에 실행
+    - cron: '0 23 * * *'
   workflow_dispatch:   # 수동 실행도 허용
 
 permissions:
